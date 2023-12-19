@@ -49,12 +49,14 @@ struct NavigationDismissHoisting: ViewModifier {
     
     private var navigationPath: [AnyRoute] {
         guard let selectedTabHashValue else {
+            /// Ignore if there isn't a selected tab.
             return []
         }
-        guard selectedTabHashValue.hashValue != TabSelection._tabBarNavigation.hashValue else {
-            assertionFailure()
-            return []
-        }
+        // TODO: Replace with test against nil reselect value.
+//        guard selectedTabHashValue.hashValue != TabSelection._tabBarNavigation.hashValue else {
+//            assertionFailure()
+//            return []
+//        }
         return tabNavigationPath.wrappedValue
     }
     
