@@ -44,9 +44,7 @@ struct NavigationDismissHoisting: ViewModifier {
     private typealias AnyRoute = any Hashable
     
     @EnvironmentObject private var navigation: Navigation
-    
-    @Environment(\.navigationPathWithRoutes) private var routesNavigationPath
-    
+    @Environment(\.navigationPath) private var tabNavigationPath
     @Environment(\.tabSelectionHashValue) private var selectedTabHashValue
     
     private var navigationPath: [AnyRoute] {
@@ -57,7 +55,7 @@ struct NavigationDismissHoisting: ViewModifier {
             assertionFailure()
             return []
         }
-        return routesNavigationPath.wrappedValue
+        return tabNavigationPath.wrappedValue
     }
     
     let auxiliaryAction: Navigation.AuxiliaryAction?
