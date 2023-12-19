@@ -13,18 +13,18 @@ import SwiftUI
 extension View {
     
     /// Unconditionally enable tab bar navigation.
-    func tabBarNavigationEnabled(_ tab: TabSelection, _ navigator: Navigation) -> some View {
+    func tabBarNavigationEnabled<TabSelection: Hashable>(_ tab: TabSelection, _ navigator: Navigation) -> some View {
         modifier(PerformTabBarNavigation(tab: tab, navigator: navigator))
     }
 }
 
-struct PerformTabBarNavigation: ViewModifier {
+struct PerformTabBarNavigation<TabSelection: Hashable>: ViewModifier {
     
     private typealias AnyRoute = any Hashable
     
 //    @Dependency(\.hapticManager) private var hapticManager
     
-    @Environment(\.navigationPathWithRoutes) private var routesNavigationPath
+    @Environment(\.navigationPath) private var tabNavigationPath
     @Environment(\.tabSelectionHashValue) private var selectedTabHashValue
     @Environment(\.tabReselectionHashValue) private var selectedNavigationTabHashValue
 
@@ -32,11 +32,12 @@ struct PerformTabBarNavigation: ViewModifier {
         guard let selectedTabHashValue else {
             return []
         }
-        guard selectedTabHashValue.hashValue != TabSelection._tabBarNavigation.hashValue else {
-            assertionFailure()
-            return []
-        }
-        return routesNavigationPath.wrappedValue
+        // TODO: Replace with test against nil reselect value.
+//        guard selectedTabHashValue.hashValue != TabSelection._tabBarNavigation.hashValue else {
+//            assertionFailure()
+//            return []
+//        }
+        return tabNavigationPath.wrappedValue
     }
     
     let tab: TabSelection
