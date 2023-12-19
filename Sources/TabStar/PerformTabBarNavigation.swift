@@ -22,7 +22,7 @@ struct PerformTabBarNavigation: ViewModifier {
     
     private typealias AnyRoute = any Hashable
     
-    @Dependency(\.hapticManager) private var hapticManager
+//    @Dependency(\.hapticManager) private var hapticManager
     
     @Environment(\.navigationPathWithRoutes) private var routesNavigationPath
     @Environment(\.tabSelectionHashValue) private var selectedTabHashValue
@@ -45,7 +45,7 @@ struct PerformTabBarNavigation: ViewModifier {
     func body(content: Content) -> some View {
         content.onChange(of: selectedNavigationTabHashValue) { newValue in
             if newValue == tab.hashValue {
-                hapticManager.play(haptic: .gentleInfo, priority: .high)
+//                hapticManager.play(haptic: .gentleInfo, priority: .high)
                 // Customization based  on user preference should occur here, for example:
                 // performSystemPopToRootBehaviour()
                 // noOp()
