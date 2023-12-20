@@ -15,18 +15,34 @@ struct FeedView: View {
     
     var body: some View {
         NavigationStack(path: $navigationPath) {
-            VStack {
-                Text("Feed View")
-                NavigationLink(value: "Detail") {
-                    Text("Go to detail...")
+            ScrollViewReader { scrollProxy in
+                ScrollView {
+                    VStack {
+                        Text("Feed View")
+                            .id("top")
+                        
+                        ForEach(0..<100) { value in
+                            Text("\(value)")
+                        }
+                        
+                        NavigationLink(value: "Detail") {
+                            Text("Go to detail...")
+                        }
+                    }
+                    .containerRelativeFrame(.horizontal)
                 }
-            }
-            .tabBarNavigationEnabled(Tab.feed, navigation)
-            .environment(\.navigationPathCount, navigationPath.count)
-            .hoistNavigation()
-            .navigationDestination(for: String.self) { value in
-                FeedDetailView()
-                    .hoistNavigation()
+                .tabBarNavigationEnabled(Tab.feed, navigation)
+                .environment(\.navigationPathCount, navigationPath.count)
+                .hoistNavigation {
+                    withAnimation {
+                        scrollProxy.scrollTo("top")
+                    }
+                    return true
+                }
+                .navigationDestination(for: String.self) { value in
+                    FeedDetailView()
+                        .hoistNavigation()
+                }
             }
         }
         .environment(\.navigationPathCount, navigationPath.count)

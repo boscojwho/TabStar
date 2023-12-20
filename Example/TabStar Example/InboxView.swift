@@ -19,18 +19,34 @@ struct InboxView: View {
     
     var body: some View {
         NavigationStack(path: $navigationPath) {
-            VStack {
-                Text("Inbox View")
-                NavigationLink(value: InboxPath.detail) {
-                    Text("Go to detail...")
+            ScrollViewReader { scrollProxy in
+                ScrollView {
+                    VStack {
+                        Text("Inbox View")
+                            .id("top")
+                        
+                        ForEach(0..<100) { value in
+                            Text("\(value)")
+                        }
+                        
+                        NavigationLink(value: InboxPath.detail) {
+                            Text("Go to detail...")
+                        }
+                    }
+                    .containerRelativeFrame(.horizontal)
                 }
-            }
-            .tabBarNavigationEnabled(Tab.inbox, navigation)
-            .environment(\.navigationPathCount, navigationPath.count)
-            .hoistNavigation()
-            .navigationDestination(for: InboxPath.self) { value in
-                InboxDetailView()
-                    .hoistNavigation()
+                .tabBarNavigationEnabled(Tab.inbox, navigation)
+                .environment(\.navigationPathCount, navigationPath.count)
+                .hoistNavigation {
+                    withAnimation {
+                        scrollProxy.scrollTo("top")
+                    }
+                    return true
+                }
+                .navigationDestination(for: InboxPath.self) { value in
+                    InboxDetailView()
+                        .hoistNavigation()
+                }
             }
         }
         .environment(\.navigationPathCount, navigationPath.count)
