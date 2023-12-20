@@ -10,42 +10,30 @@ import Foundation
 import SwiftUI
 
 // MARK: - Enable tab bar navigation
-extension View {
+public extension View {
     
     /// Unconditionally enable tab bar navigation.
-    func tabBarNavigationEnabled<TabSelection: Hashable>(_ tab: TabSelection, _ navigator: Navigation) -> some View {
+    func tabBarNavigationEnabled<TabSelection: RawRepresentable>(_ tab: TabSelection, _ navigator: Navigation) -> some View {
         modifier(PerformTabBarNavigation(tab: tab, navigator: navigator))
     }
 }
 
-struct PerformTabBarNavigation<TabSelection: Hashable>: ViewModifier {
+public struct PerformTabBarNavigation<TabSelection: RawRepresentable>: ViewModifier {
     
     private typealias AnyRoute = any Hashable
     
 //    @Dependency(\.hapticManager) private var hapticManager
     
-    @Environment(\.navigationPath) private var tabNavigationPath
-    @Environment(\.tabSelectionHashValue) private var selectedTabHashValue
-    @Environment(\.tabReselectionHashValue) private var selectedNavigationTabHashValue
-
-    private var navigationPath: [AnyRoute] {
-        guard let selectedTabHashValue else {
-            return []
-        }
-        // TODO: Replace with test against nil reselect value.
-//        guard selectedTabHashValue.hashValue != TabSelection._tabBarNavigation.hashValue else {
-//            assertionFailure()
-//            return []
-//        }
-        return tabNavigationPath.wrappedValue
-    }
+    @Environment(\.navigationPathCount) private var pathCount
+    @Environment(\.tabSelectionId) private var selectedTabId
+    @Environment(\.tabReselectionId) private var reselectedTabId
     
     let tab: TabSelection
     let navigator: Navigation
     
-    func body(content: Content) -> some View {
-        content.onChange(of: selectedNavigationTabHashValue) { newValue in
-            if newValue == tab.hashValue {
+    public func body(content: Content) -> some View {
+        content.onChange(of: reselectedTabId) { newValue in
+            if newValue == tab.rawValue as? Int {
 //                hapticManager.play(haptic: .gentleInfo, priority: .high)
                 // Customization based  on user preference should occur here, for example:
                 // performSystemPopToRootBehaviour()
@@ -59,11 +47,11 @@ struct PerformTabBarNavigation<TabSelection: Hashable>: ViewModifier {
     /// Runs all auxiliary actions before calling system dismiss action.
     private func performDismissAfterAuxiliary() {
         #if DEBUG
-        print("perform action on path index -> \(navigationPath.count)")
+        print("perform action on path index -> \(pathCount)")
         #endif
-        guard let pathAction = navigator.pathActions[navigationPath.count] else {
+        guard let pathAction = navigator.pathActions[pathCount] else {
             #if DEBUG
-            print("path action not found at index -> \(navigationPath.count)")
+            print("path action not found at index -> \(pathCount)")
             #endif
             return
         }

@@ -7,13 +7,13 @@
 
 import SwiftUI
 
-private struct NavigationPathEnvironmentKey: EnvironmentKey {
-    static let defaultValue: Binding<[any Hashable]> = .constant([])
+public struct NavigationPathCountEnvironmentKey: EnvironmentKey {
+    public static let defaultValue: Int = 0
 }
 
-extension EnvironmentValues {
-    var navigationPath: Binding<[any Hashable]> {
-        get { self[NavigationPathEnvironmentKey.self] }
-        set { self[NavigationPathEnvironmentKey.self] = newValue }
+public extension EnvironmentValues {
+    var navigationPathCount: Int {
+        get { self[NavigationPathCountEnvironmentKey.self] }
+        set { self[NavigationPathCountEnvironmentKey.self] = newValue }
     }
 }

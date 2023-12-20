@@ -8,7 +8,7 @@
 import SwiftUI
 
 // MARK: - Hoist dismiss action
-extension View {
+public extension View {
     
     /// - Parameter dismiss: Pass in the `@Environment(\.dismiss)` property declared in the view being modified.
     /// - Note: See `hoistNavigation(_ primaryAction:...)`, if declaring dismiss action in your view causes SwiftUI to enter an infinite loop.
@@ -39,26 +39,12 @@ extension View {
     }
 }
 
-struct NavigationDismissHoisting: ViewModifier {
+internal struct NavigationDismissHoisting: ViewModifier {
     
     private typealias AnyRoute = any Hashable
     
     @EnvironmentObject private var navigation: Navigation
-    @Environment(\.navigationPath) private var tabNavigationPath
-    @Environment(\.tabSelectionHashValue) private var selectedTabHashValue
-    
-    private var navigationPath: [AnyRoute] {
-        guard let selectedTabHashValue else {
-            /// Ignore if there isn't a selected tab.
-            return []
-        }
-        // TODO: Replace with test against nil reselect value.
-//        guard selectedTabHashValue.hashValue != TabSelection._tabBarNavigation.hashValue else {
-//            assertionFailure()
-//            return []
-//        }
-        return tabNavigationPath.wrappedValue
-    }
+    @Environment(\.navigationPathCount) private var pathCount
     
     let auxiliaryAction: Navigation.AuxiliaryAction?
     
@@ -78,7 +64,7 @@ struct NavigationDismissHoisting: ViewModifier {
 #endif
                         navigation.dismiss = dismiss
                         navigation.auxiliaryAction = auxiliaryAction
-                        let pathIndex = max(0, navigationPath.count)
+                        let pathIndex = max(0, pathCount)
 #if DEBUG
                         print("     adding path action at index -> \(pathIndex)")
 #endif
@@ -90,11 +76,11 @@ struct NavigationDismissHoisting: ViewModifier {
                 }
                 .onDisappear {
 #if DEBUG
-                    print("onDisappear: path count -> \(navigationPath.count), action count -> \(navigation.pathActions.count)")
+                    print("onDisappear: path count -> \(pathCount), action count -> \(navigation.pathActions.count)")
                     print("     navigation -> \(Unmanaged.passUnretained(navigation).toOpaque())")
 #endif
                     
-                    let removeIndex = navigationPath.count + 1
+                    let removeIndex = pathCount + 1
                     // swiftlint:disable unused_optional_binding
                     if let _ = navigation.pathActions.removeValue(forKey: removeIndex) {
 #if DEBUG

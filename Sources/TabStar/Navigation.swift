@@ -7,10 +7,16 @@
 
 import SwiftUI
 
-final class Navigation: ObservableObject {
-    /// Return `true` to indicate that an auxiliary action was performed.
-    typealias AuxiliaryAction = () -> Bool
+public final class Navigation: ObservableObject {
     
+    public init() {
+        self.dismiss = nil
+        self.auxiliaryAction = nil
+    }
+    
+    /// Return `true` to indicate that an auxiliary action was performed.
+    public typealias AuxiliaryAction = () -> Bool
+        
     var pathActions: [Int: (dismiss: DismissAction?, auxiliaryAction: AuxiliaryAction?)] = [:]
     
     /// Navigation always performs dismiss action (if available), but may choose to perform an auxiliary action first.
@@ -24,7 +30,7 @@ final class Navigation: ObservableObject {
 }
 
 // MARK: - Primary Action
-extension Navigation {
+public extension Navigation {
     
     enum PrimaryAction {
         case dismiss
@@ -32,7 +38,7 @@ extension Navigation {
 }
 
 // MARK: - Navigation Behaviour
-extension Navigation {
+public extension Navigation {
     
     enum Behaviour {
         /// Mimics Apple platforms tab bar navigation behaviour (i.e. pop to root regardless of navigation stack size, then scroll to top).

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 60;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -17,7 +17,11 @@
 		E4A5F0F02B3064960033CC9E /* TabStar in Frameworks */ = {isa = PBXBuildFile; productRef = E4A5F0EF2B3064960033CC9E /* TabStar */; };
 		E4A5F0F22B30653F0033CC9E /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5F0F12B30653F0033CC9E /* FeedView.swift */; };
 		E4A5F0F42B3065440033CC9E /* InboxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5F0F32B3065440033CC9E /* InboxView.swift */; };
-		E4A5F0F62B30654E0033CC9E /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5F0F52B30654E0033CC9E /* SearchView.swift */; };
+		E4B6484B2B32BE1E00DB9075 /* TabStar in Frameworks */ = {isa = PBXBuildFile; productRef = E4B6484A2B32BE1E00DB9075 /* TabStar */; };
+		E4B648512B32D5DA00DB9075 /* FeedDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B648502B32D5DA00DB9075 /* FeedDetailView.swift */; };
+		E4B648532B32D61A00DB9075 /* TabReselection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B648522B32D61A00DB9075 /* TabReselection.swift */; };
+		E4B648552B32D64000DB9075 /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B648542B32D64000DB9075 /* Tab.swift */; };
+		E4B648572B32D85F00DB9075 /* InboxDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B648562B32D85F00DB9075 /* InboxDetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,7 +55,11 @@
 		E4A5F0E12B3063580033CC9E /* TabStar_ExampleUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabStar_ExampleUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		E4A5F0F12B30653F0033CC9E /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
 		E4A5F0F32B3065440033CC9E /* InboxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxView.swift; sourceTree = "<group>"; };
-		E4A5F0F52B30654E0033CC9E /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
+		E4B6484C2B32BF9E00DB9075 /* TabStar */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = TabStar; path = ..; sourceTree = "<group>"; };
+		E4B648502B32D5DA00DB9075 /* FeedDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedDetailView.swift; sourceTree = "<group>"; };
+		E4B648522B32D61A00DB9075 /* TabReselection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabReselection.swift; sourceTree = "<group>"; };
+		E4B648542B32D64000DB9075 /* Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tab.swift; sourceTree = "<group>"; };
+		E4B648562B32D85F00DB9075 /* InboxDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +67,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E4B6484B2B32BE1E00DB9075 /* TabStar in Frameworks */,
 				E4A5F0F02B3064960033CC9E /* TabStar in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -83,10 +92,12 @@
 		E4A5F0B72B3063570033CC9E = {
 			isa = PBXGroup;
 			children = (
+				E4B6484C2B32BF9E00DB9075 /* TabStar */,
 				E4A5F0C22B3063570033CC9E /* TabStar Example */,
 				E4A5F0D42B3063580033CC9E /* TabStar ExampleTests */,
 				E4A5F0DE2B3063580033CC9E /* TabStar ExampleUITests */,
 				E4A5F0C12B3063570033CC9E /* Products */,
+				E4B6484D2B32BFAC00DB9075 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -106,8 +117,11 @@
 				E4A5F0C32B3063570033CC9E /* TabStar_ExampleApp.swift */,
 				E4A5F0C52B3063570033CC9E /* ContentView.swift */,
 				E4A5F0F12B30653F0033CC9E /* FeedView.swift */,
+				E4B648502B32D5DA00DB9075 /* FeedDetailView.swift */,
 				E4A5F0F32B3065440033CC9E /* InboxView.swift */,
-				E4A5F0F52B30654E0033CC9E /* SearchView.swift */,
+				E4B648562B32D85F00DB9075 /* InboxDetailView.swift */,
+				E4B648542B32D64000DB9075 /* Tab.swift */,
+				E4B648522B32D61A00DB9075 /* TabReselection.swift */,
 				E4A5F0C72B3063580033CC9E /* Assets.xcassets */,
 				E4A5F0C92B3063580033CC9E /* TabStar_Example.entitlements */,
 				E4A5F0CA2B3063580033CC9E /* Preview Content */,
@@ -140,6 +154,13 @@
 			path = "TabStar ExampleUITests";
 			sourceTree = "<group>";
 		};
+		E4B6484D2B32BFAC00DB9075 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -158,6 +179,7 @@
 			name = "TabStar Example";
 			packageProductDependencies = (
 				E4A5F0EF2B3064960033CC9E /* TabStar */,
+				E4B6484A2B32BE1E00DB9075 /* TabStar */,
 			);
 			productName = "TabStar Example";
 			productReference = E4A5F0C02B3063570033CC9E /* TabStar Example.app */;
@@ -232,7 +254,6 @@
 			);
 			mainGroup = E4A5F0B72B3063570033CC9E;
 			packageReferences = (
-				E4A5F0EE2B3064960033CC9E /* XCLocalSwiftPackageReference ".." */,
 			);
 			productRefGroup = E4A5F0C12B3063570033CC9E /* Products */;
 			projectDirPath = "";
@@ -276,11 +297,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E4A5F0F62B30654E0033CC9E /* SearchView.swift in Sources */,
 				E4A5F0C62B3063570033CC9E /* ContentView.swift in Sources */,
 				E4A5F0F42B3065440033CC9E /* InboxView.swift in Sources */,
+				E4B648552B32D64000DB9075 /* Tab.swift in Sources */,
 				E4A5F0F22B30653F0033CC9E /* FeedView.swift in Sources */,
+				E4B648532B32D61A00DB9075 /* TabReselection.swift in Sources */,
 				E4A5F0C42B3063570033CC9E /* TabStar_ExampleApp.swift in Sources */,
+				E4B648572B32D85F00DB9075 /* InboxDetailView.swift in Sources */,
+				E4B648512B32D5DA00DB9075 /* FeedDetailView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -638,15 +662,12 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCLocalSwiftPackageReference section */
-		E4A5F0EE2B3064960033CC9E /* XCLocalSwiftPackageReference ".." */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = ..;
-		};
-/* End XCLocalSwiftPackageReference section */
-
 /* Begin XCSwiftPackageProductDependency section */
 		E4A5F0EF2B3064960033CC9E /* TabStar */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = TabStar;
+		};
+		E4B6484A2B32BE1E00DB9075 /* TabStar */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = TabStar;
 		};

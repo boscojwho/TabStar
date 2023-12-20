@@ -8,24 +8,26 @@
 import SwiftUI
 
 // MARK: - Selection
-struct TabSelectionEnvironmentKey: EnvironmentKey {
-    static var defaultValue: Int? { nil }
+public struct TabSelectionEnvironmentKey: EnvironmentKey {
+    public static var defaultValue: Int? { nil }
 }
 
-extension EnvironmentValues {
-    var tabSelectionHashValue: Int? {
+public extension EnvironmentValues {
+    /// A value representing a tab's identity.
+    var tabSelectionId: Int? {
         get { self[TabSelectionEnvironmentKey.self] }
         set { self[TabSelectionEnvironmentKey.self] = newValue }
     }
 }
 
 // MARK: - Reselection
-struct TabReselectionEnvironmentKey: EnvironmentKey {
-    static var defaultValue: Int? { nil }
+public struct TabReselectionEnvironmentKey: EnvironmentKey {
+    public static var defaultValue: Int? { nil }
 }
 
-extension EnvironmentValues {
-    var tabReselectionHashValue: Int? {
+public extension EnvironmentValues {
+    /// A value representing a tab's identity.
+    var tabReselectionId: Int? {
         get { self[TabReselectionEnvironmentKey.self] }
         set { self[TabReselectionEnvironmentKey.self] = newValue }
     }

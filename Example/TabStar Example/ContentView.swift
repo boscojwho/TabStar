@@ -8,69 +8,43 @@
 import SwiftUI
 import TabStar
 
-enum Tab: CaseIterable, Identifiable, CustomStringConvertible {
-    case feed, inbox, search
-
-    var id: Self { self }
-
-    var description: String {
-        switch self {
-        case .feed:
-            "Feed"
-        case .inbox:
-            "Inbox"
-        case .search:
-            "Search"
-        }
-    }
-    
-    var systemImage: String {
-        switch self {
-        case .feed:
-            "list.bullet.rectangle.portrait"
-        case .inbox:
-            "tray"
-        case .search:
-            "magnifyingglass"
-        }
-    }
-}
-
-extension Tab {
-    
-    @ViewBuilder
-    func makeRootView() -> some View {
-        switch self {
-        case .feed:
-            FeedView()
-        case .inbox:
-            InboxView()
-        case .search:
-            SearchView()
-        }
-    }
-    
-    @ViewBuilder
-    func tabItemLabel() -> some View {
-        Label(description, systemImage: systemImage)
-    }
-}
-
 @Observable
 final class TabSelectionViewModel {
     var selectedTab: Tab = .feed
+    var reselectedTab: Tab?
 }
 
 struct ContentView: View {
     
     @State private var tabSelection: TabSelectionViewModel = .init()
     
+    private var selection: Binding<Tab> {
+        .init {
+            tabSelection.selectedTab
+        } set: { newValue in
+            tabSelection.selectedTab = newValue
+        }.onUpdate { old, new in
+            /// Trigger reselect update.
+            if old == new {
+                tabSelection.reselectedTab = new
+            }
+        }
+    }
+    
     var body: some View {
-        TabView(selection: $tabSelection.selectedTab) {
+        TabView(selection: selection) {
             ForEach(Tab.allCases) { tab in
                 tab.makeRootView()
                     .tabItem { tab.tabItemLabel() }
                     .tag(tab.hashValue)
+                    .environment(\.tabSelectionId, tabSelection.selectedTab.rawValue)
+                    .environment(\.tabReselectionId, tabSelection.reselectedTab?.rawValue)
+            }
+        }
+        .onChange(of: tabSelection.reselectedTab) { _, newValue in
+            // Resets the reselection value to nil after the change is published, otherwise subsequent reselects won't trigger onChange updates.
+            if newValue != nil {
+                tabSelection.reselectedTab = nil
             }
         }
     }
