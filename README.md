@@ -1,6 +1,6 @@
-# TabStar
 <img src="https://github.com/boscojwho/TabStar/assets/2549615/86aa33cb-033c-4a0a-b479-9c0048f615e9" width="400">
 
+# TabStar
 `TabStar` allows users to use an app’s tab bar to navigate backwards on a navigation stack, and also gives apps the ability to customize what happens when users re-select a tab.
 
 # Features
