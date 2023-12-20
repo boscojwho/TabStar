@@ -37,8 +37,8 @@ struct ContentView: View {
                 tab.makeRootView()
                     .tabItem { tab.tabItemLabel() }
                     .tag(tab.hashValue)
-                    .environment(\.tabSelectionId, tabSelection.selectedTab.rawValue)
-                    .environment(\.tabReselectionId, tabSelection.reselectedTab?.rawValue)
+                    .environment(\.tabSelectionId, tabSelection.selectedTab.hashValue)
+                    .environment(\.tabReselectionId, tabSelection.reselectedTab?.hashValue)
             }
         }
         .onChange(of: tabSelection.reselectedTab) { _, newValue in

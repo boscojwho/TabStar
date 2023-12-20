@@ -13,15 +13,13 @@ import SwiftUI
 public extension View {
     
     /// Unconditionally enable tab bar navigation.
-    func tabBarNavigationEnabled<TabSelection: RawRepresentable>(_ tab: TabSelection, _ navigator: Navigation) -> some View {
+    func tabBarNavigationEnabled<TabSelection: Hashable>(_ tab: TabSelection, _ navigator: Navigation) -> some View {
         modifier(PerformTabBarNavigation(tab: tab, navigator: navigator))
     }
 }
 
-public struct PerformTabBarNavigation<TabSelection: RawRepresentable>: ViewModifier {
-    
-    private typealias AnyRoute = any Hashable
-    
+public struct PerformTabBarNavigation<TabSelection: Hashable>: ViewModifier {
+        
 //    @Dependency(\.hapticManager) private var hapticManager
     
     @Environment(\.navigationPathCount) private var pathCount
@@ -33,7 +31,7 @@ public struct PerformTabBarNavigation<TabSelection: RawRepresentable>: ViewModif
     
     public func body(content: Content) -> some View {
         content.onChange(of: reselectedTabId) { newValue in
-            if newValue == tab.rawValue as? Int {
+            if newValue == tab.hashValue {
 //                hapticManager.play(haptic: .gentleInfo, priority: .high)
                 // Customization based  on user preference should occur here, for example:
                 // performSystemPopToRootBehaviour()
