@@ -96,7 +96,6 @@ struct FeedView: View {
                         }
                         .navigationDestination(for: String.self) { value in
                             FeedDetailView()
-                                .hoistNavigation()
                         }
                     }
                 }
