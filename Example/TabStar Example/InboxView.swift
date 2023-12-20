@@ -36,7 +36,6 @@ struct InboxView: View {
                     .containerRelativeFrame(.horizontal)
                 }
                 .tabBarNavigationEnabled(Tab.inbox, navigation)
-                .environment(\.navigationPathCount, navigationPath.count)
                 .hoistNavigation {
                     withAnimation {
                         scrollProxy.scrollTo("top")
