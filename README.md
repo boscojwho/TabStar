@@ -3,6 +3,8 @@
 # TabStar
 `TabStar` allows users to use an app’s tab bar to navigate backwards on a navigation stack, and also gives apps the ability to customize what happens when users re-select a tab.
 
+This package was originally written by yours truly for [Mlem for Lemmy on iOS](https://github.com/mlemgroup/mlem), an open-source Lemmy client...go check it out! 😇
+
 # Features
 - Enables reliable view dismissal via tab bar.
 - Allows apps to customize tab re-selection behaviour (e.g. scroll-to-top before dismissing view).
