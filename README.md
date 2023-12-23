@@ -8,7 +8,14 @@
 - Allows apps to customize tab re-selection behaviour (e.g. scroll-to-top before dismissing view).
 
 # Installation
-[Swift Package URL]
+## Swift Package Manager
+Add `TabStar` to your Xcode project by adding a package dependency to your `Package.swift` file.
+```
+dependencies: [
+    .package(url: "https://github.com/boscojwho/TabStar.git", from: "1.0.0")
+]
+```
+Alternatively, open your Xcode project, and navigate to `File > Swift Packages > Add Package Dependency...` and enter `https://github.com/boscojwho/TabStar.git`.
 
 # Why?
 Doesn’t SwiftUI already provide a way to programmatically manipulate a `NavigationStack`’s path whether you use `NavigationPath` or a custom path type? 
