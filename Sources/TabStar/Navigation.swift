@@ -9,9 +9,10 @@ import SwiftUI
 
 public final class Navigation: ObservableObject {
     
-    public init() {
+    public init(sensoryFeedback: _SensoryFeedback? = .impactFlexible(flexibility: .solid, intensity: 0.5)) {
         self.dismiss = nil
         self.auxiliaryAction = nil
+        self.sensoryFeedback = sensoryFeedback
     }
     
     /// Return `true` to indicate that an auxiliary action was performed.
@@ -27,6 +28,8 @@ public final class Navigation: ObservableObject {
     ///
     /// - Warning: Navigation may skip this action, depending on user preference or other factors. Do not perform critical logic in this action.
     var auxiliaryAction: AuxiliaryAction?
+    
+    internal let sensoryFeedback: _SensoryFeedback?
 }
 
 // MARK: - Primary Action

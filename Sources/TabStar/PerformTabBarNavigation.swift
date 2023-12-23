@@ -5,7 +5,6 @@
 //  Created by Bosco Ho on 2023-09-08.
 //
 
-import Dependencies
 import Foundation
 import SwiftUI
 
@@ -13,33 +12,47 @@ import SwiftUI
 public extension View {
     
     /// Unconditionally enable tab bar navigation.
-    func tabBarNavigationEnabled<TabSelection: Hashable>(_ tab: TabSelection, _ navigator: Navigation) -> some View {
-        modifier(PerformTabBarNavigation(tab: tab, navigator: navigator))
+    func tabBarNavigationEnabled<TabSelection: Hashable>(
+        _ tab: TabSelection,
+        _ navigator: Navigation,
+        playSensoryFeedback: (() -> Void)? = nil
+    ) -> some View {
+        modifier(
+            PerformTabBarNavigation(
+                tab: tab,
+                navigator: navigator,
+                playSensoryFeedback: playSensoryFeedback
+            )
+        )
     }
 }
 
 public struct PerformTabBarNavigation<TabSelection: Hashable>: ViewModifier {
-        
-//    @Dependency(\.hapticManager) private var hapticManager
-    
+            
     @Environment(\.navigationPathCount) private var pathCount
     @Environment(\.tabSelectionId) private var selectedTabId
     @Environment(\.tabReselectionId) private var reselectedTabId
     
     let tab: TabSelection
     let navigator: Navigation
+    let playSensoryFeedback: (() -> Void)?
     
     public func body(content: Content) -> some View {
-        content.onChange(of: reselectedTabId) { newValue in
-            if newValue == tab.hashValue {
-//                hapticManager.play(haptic: .gentleInfo, priority: .high)
-                // Customization based  on user preference should occur here, for example:
-                // performSystemPopToRootBehaviour()
-                // noOp()
-                // performDimsissOnly()
-                performDismissAfterAuxiliary()
+        content
+            .onChange(of: reselectedTabId) { newValue in
+                if newValue == tab.hashValue {
+                    // Customization based on user preference should occur here, for example:
+                    // performSystemPopToRootBehaviour()
+                    // noOp()
+                    // performDimsissOnly()
+                    performDismissAfterAuxiliary()
+                }
             }
-        }
+            ._sensoryFeedback(
+                navigator.sensoryFeedback,
+                trigger: reselectedTabId == tab.hashValue,
+                playSensoryFeedback: playSensoryFeedback
+            )
     }
     
     /// Runs all auxiliary actions before calling system dismiss action.
