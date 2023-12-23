@@ -44,26 +44,40 @@ Once you are able to detect when users re-select a selected tab, you are ready t
 To integrate `TabStar` into your app, you will need to start by configuring each tab’s root view.
 1. Each tab will need to have its own `NavigationStack`. Optionally, you may configure a tab with a `NavigationSplitView` (see example app on how to configure a Split View).
 2. Add the following properties to a tab’s root view:
+```
 @StateObject private var navigation: Navigation = .init()
-and
+
+AND
+
 @State private var navigationPath: NavigationPath = .init()
-or
+
+OR
+
 @State private var navigationPath: [YourTabPath] = []
+```
 
 and configure your stack like this
+```
 NavigationStack(path: $navigationPath) { ... }
+```
 3. Apply the following view modifiers to a tab’s `NavigationStack`:
+```
 .environment(\.navigationPathCount, navigationPath.count)
 .environmentObject(navigation)
-4. On a tab’s root view inside its `NavigationStack`, apply the following view modifiers:
+```
+5. On a tab’s root view inside its `NavigationStack`, apply the following view modifiers:
+```
 .tabBarNavigationEnabled(Tab.inbox, navigation)
 .hoistNavigation()
+```
 
 ## Tab Destination Views
 For all destination views that can be pushed onto a `NavigationStack`, the following setup is required:
 1. Apply the following view modifier to the top-level view
+```
 View { ... }
-.hoistNavigation()
+    .hoistNavigation()
+```
 
 And that’s it for integrating `TabStar` in a simple tabbed application. See below for examples on how to integrate `TabStar` in some more complicated view configurations.
 
@@ -72,18 +86,24 @@ And that’s it for integrating `TabStar` in a simple tabbed application. See be
 ## Auxiliary Actions
 - Simply return `true` while there is an auxiliary action to be performed. Return `false` when a view should perform its dismiss action.
 
+# Implementation Details
+
 ## ScrollView
-- If your app uses SwiftUI’s TabView, you can safely use ScrollViewReader inside a `NavigationStack`. 
-- If you are using a custom tab view (e.g. some variation of `ZStack`), you may need to move the `ScrollViewReader` outside of the `NavigationStack`. In this setup, you may also need to pass that scroll proxy to destination views via the environment, instead of declaring a ScrollViewReader for each view, as the latter may result in unexpected behaviour. Your mileage may vary.
+- If your app uses SwiftUI’s native `TabView`, you can safely use `ScrollViewReader` inside a `NavigationStack`. 
+- If you are using a custom tab view (e.g. some variation of `ZStack`), you may need to move the `ScrollViewReader` outside of the `NavigationStack`. In this setup, you may also need to pass that scroll proxy to destination views via the environment, instead of declaring a `ScrollViewReader` for each view, as the latter may result in unexpected behaviour. Your mileage may vary.
 
 ## NavigationSplitView
-- See the example app for a sample implementation.
+- See the example app for a sample implementation, including how to show/hide the sidebar on iPad.
 
 ## Scroll-to-Top + LazyVStack
-- You may need to put your “scroll-to-top” view inside a LazyVStack in order for .onAppear/.onDisappear to be called in the expected ways. Your mileage may vary.
-
-# Implementation Details
+- You may need to put your “scroll-to-top” view inside a `LazyVStack` in order for `.onAppear`/`.onDisappear` to be called in the expected ways. Your mileage may vary.
 
 ## Hoisting Dismiss Actions
 In some instances, you may encounter an issue where the hoist dismiss action view modifier causes SwiftUI to enter an infinite loop when attempting to access the dismiss action from the environment. If so, explicitly define `@Environment(\.dismiss)` in your view, and pass it into the view modifier.
 - IMPORTANT: In this scenario, each view must define its own dismiss action. In other words, do not nest your destination views.
+
+## Navigation Path
+This isn't specific to `TabStar`, but you may wish to use a custom navigation path over SwiftUI's `NavigationPath` if you start seeing views pop off the navigation stack without animations. Your mileage may vary.
+
+# Contribute!
+Feel free to contribute by opening an issue or submitting a pull request 🫶
