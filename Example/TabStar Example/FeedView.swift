@@ -60,8 +60,9 @@ struct FeedView: View {
                                     if horizontalSizeClass == .regular {
                                         print("show/hide sidebar in regular size class")
                                         columnVisibility = {
+                                            /// Show/hide sidebar (e.g. iPad) by toggling between `.detailOnly` and `.all`.
                                             if columnVisibility == .all {
-                                                return .automatic
+                                                return .detailOnly
                                             } else {
                                                 return .all
                                             }
