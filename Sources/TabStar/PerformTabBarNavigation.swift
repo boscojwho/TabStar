@@ -13,7 +13,7 @@ public extension View {
     
     /// Unconditionally enable tab bar navigation.
     /// - Parameter playSensoryFeedback: If your app runs on OS versions that don't support `View.sensoryFeedback(...)`, perform haptic playback inside this closure whenever tab bar item is tapped.
-    func tabBarNavigationEnabled<TabSelection: Hashable>(
+    func tabBarNavigationEnabled<TabSelection: Hashable & CustomStringConvertible>(
         _ tab: TabSelection,
         _ navigator: Navigation,
         playSensoryFeedback: (() -> Void)? = nil
@@ -28,7 +28,7 @@ public extension View {
     }
 }
 
-public struct PerformTabBarNavigation<TabSelection: Hashable>: ViewModifier {
+public struct PerformTabBarNavigation<TabSelection: Hashable & CustomStringConvertible>: ViewModifier {
             
     @Environment(\.navigationPathCount) private var pathCount
     @Environment(\.tabSelectionId) private var selectedTabId
@@ -58,38 +58,27 @@ public struct PerformTabBarNavigation<TabSelection: Hashable>: ViewModifier {
     
     /// Runs all auxiliary actions before calling system dismiss action.
     private func performDismissAfterAuxiliary() {
-        #if DEBUG
-        print("perform action on path index -> \(pathCount)")
-        #endif
+        Log.default.debug("perform action on path index -> \(pathCount)")
+        
         guard let pathAction = navigator.pathActions[pathCount] else {
-            #if DEBUG
-            print("path action not found at index -> \(pathCount)")
-            #endif
+            Log.default.debug("path action not found at index -> \(pathCount)")
             return
         }
         
         if let auxiliaryAction = pathAction.auxiliaryAction {
             let performed = auxiliaryAction()
             if !performed, let dismiss = pathAction.dismiss {
-                #if DEBUG
-                print("found auxiliary action, but that logic has been exhausted...perform standard dismiss action")
-                print("perform tab navigation on \(tab) tab")
-                #endif
+                Log.default.debug("found auxiliary action, but that logic has been exhausted...perform standard dismiss action")
+                Log.default.debug("perform tab navigation on \(tab) tab")
                 dismiss()
             } else {
-                #if DEBUG
-                print("performed auxiliary action")
-                #endif
+                Log.default.debug("performed auxiliary action")
             }
         } else if let dismiss = pathAction.dismiss {
-            #if DEBUG
-            print("perform dismiss action via tab navigation on \(tab) tab")
-            #endif
+            Log.default.debug("perform dismiss action via tab navigation on \(tab) tab")
             dismiss()
         } else {
-            #if DEBUG
-            print("attempted tab navigation -> action(s) not found")
-            #endif
+            Log.default.debug("attempted tab navigation -> action(s) not found")
         }
     }
 }
