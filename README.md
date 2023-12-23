@@ -5,6 +5,8 @@
 
 > This package was originally written by yours truly for [Mlem for Lemmy on iOS](https://github.com/mlemgroup/mlem), an open-source Lemmy client...go check it out! 😇
 
+https://github.com/boscojwho/TabStar/assets/2549615/2f1c9f9a-545d-4b03-8015-e6b17cd0f422
+
 # Features
 - Reliably dismiss views on a `NavigationStack` via system or custom tab bar.
 - Allow apps to customize tab re-selection behaviour (e.g. scroll-to-top before dismissing view).
