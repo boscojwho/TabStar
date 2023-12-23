@@ -3,16 +3,17 @@
 # TabStar
 `TabStar` allows users to use an app’s tab bar to navigate backwards on a navigation stack, and also gives apps the ability to customize what happens when users re-select a tab.
 
-This package was originally written by yours truly for [Mlem for Lemmy on iOS](https://github.com/mlemgroup/mlem), an open-source Lemmy client...go check it out! 😇
+> This package was originally written by yours truly for [Mlem for Lemmy on iOS](https://github.com/mlemgroup/mlem), an open-source Lemmy client...go check it out! 😇
 
 # Features
-- Enables reliable view dismissal via tab bar.
-- Allows apps to customize tab re-selection behaviour (e.g. scroll-to-top before dismissing view).
+- Reliably dismiss views on a `NavigationStack` via system or custom tab bar.
+- Allow apps to customize tab re-selection behaviour (e.g. scroll-to-top before dismissing view).
+- All in a neat little package 😎
 
 # Installation
 ## Swift Package Manager
 Add `TabStar` to your Xcode project by adding a package dependency to your `Package.swift` file.
-```
+```swift
 dependencies: [
     .package(url: "https://github.com/boscojwho/TabStar.git", from: "1.0.0")
 ]
@@ -20,18 +21,16 @@ dependencies: [
 Alternatively, open your Xcode project, and navigate to `File > Swift Packages > Add Package Dependency...` and enter `https://github.com/boscojwho/TabStar.git`.
 
 # Why?
-Doesn’t SwiftUI already provide a way to programmatically manipulate a `NavigationStack`’s path whether you use `NavigationPath` or a custom path type? 
+1. This doesn't come built-in to SwiftUI's `TabView` (yes, it's built-in to `UITabBarController`).
 
-Yes, but unfortunately programmatic path manipulation causes the path/UI states to become corrupt on both iOS 16/17 (see here for a sample project demonstrating this bug). 
+2. Reliability
+- Doesn’t SwiftUI already provide a way to programmatically manipulate a `NavigationStack`’s path whether you use `NavigationPath` or a custom path type? 
 
-Essentially, if users rapidly trigger programmatic navigation path manipulation while a dismiss action is in-flight, the path’s state and the stack’s UI state easily become de-synced. When that happens, users can no longer properly navigate using onscreen buttons, and apps performing programmatic path manipulation will encounter unexpected behaviour.
+- Yes, but unfortunately programmatic path manipulation causes the path/UI states to become corrupt on both iOS 16/17, [see here for a sample project demonstrating this issue](https://github.com/boscojwho/NavigateDismissBug-SwiftUI.git).
 
-`TabStar` helps by relying on SwiftUI’s environment dismiss action to perform programmatic dismissal. That `DismissAction` is reliable because it is synced to the onscreen state of `NavigationStack`. Essentially, it doesn’t allow for dismiss actions to happen if one is already in-flight or if the view associated with a dismiss action isn’t yet visible.
+- Essentially, if users rapidly trigger programmatic navigation path manipulation while a dismiss action is in-flight, the path’s state and the stack’s UI state become de-synced – this is easily reproducible. When that happens, users can no longer properly navigate using onscreen buttons, and apps performing programmatic path manipulation will encounter unexpected behaviour.
 
-# Enabling Tab Re-Selection
-For either `SwiftUI.TabView` or any custom tab view, you will need to ensure that tab selection triggers a change update on re-select. For an example implementation, see `TabReselection`.
-
-Once you are able to detect when users re-select a selected tab, you are ready to integrate `TabStar` to allow users to perform custom actions via the tab bar.
+- `TabStar` helps by relying on SwiftUI’s `@Environment(\.dismiss)` action to perform programmatic dismissal. That `DismissAction` is reliable because it is synced to the onscreen state of `NavigationStack`. Essentially, it doesn’t allow for dismiss actions to happen if one is already in-flight or if the view associated with a dismiss action isn’t yet visible.
 
 # Overview
 `TabStar` performs two types of tab bar navigation actions:
@@ -40,11 +39,18 @@ Once you are able to detect when users re-select a selected tab, you are ready t
 
 # How To Integrate: Basic
 
+> Hint: See the example project included with this package for demo code.
+
+## Enabling Tab Re-Selection
+For either `SwiftUI.TabView` or any custom tab view, you will need to ensure that tab selection triggers a change update on re-select. This functionality is currently not provided by `TabStar`. For an example implementation, see `TabReselection` in the example project.
+
+Once you are able to detect when users re-select a selected tab, you are ready to integrate `TabStar` to allow users to perform custom actions via the tab bar.
+
 ## Tab Root View
 To integrate `TabStar` into your app, you will need to start by configuring each tab’s root view.
 1. Each tab will need to have its own `NavigationStack`. Optionally, you may configure a tab with a `NavigationSplitView` (see example app on how to configure a Split View).
 2. Add the following properties to a tab’s root view:
-```
+```swift
 @StateObject private var navigation: Navigation = .init()
 
 AND
@@ -57,16 +63,16 @@ OR
 ```
 
 and configure your stack like this
-```
+```swift
 NavigationStack(path: $navigationPath) { ... }
 ```
 3. Apply the following view modifiers to a tab’s `NavigationStack`:
-```
+```swift
 .environment(\.navigationPathCount, navigationPath.count)
 .environmentObject(navigation)
 ```
 5. On a tab’s root view inside its `NavigationStack`, apply the following view modifiers:
-```
+```swift
 .tabBarNavigationEnabled(Tab.inbox, navigation)
 .hoistNavigation()
 ```
@@ -74,7 +80,7 @@ NavigationStack(path: $navigationPath) { ... }
 ## Tab Destination Views
 For all destination views that can be pushed onto a `NavigationStack`, the following setup is required:
 1. Apply the following view modifier to the top-level view
-```
+```swift
 View { ... }
     .hoistNavigation()
 ```
