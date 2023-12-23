@@ -12,6 +12,7 @@ import SwiftUI
 public extension View {
     
     /// Unconditionally enable tab bar navigation.
+    /// - Parameter playSensoryFeedback: If your app runs on OS versions that don't support `View.sensoryFeedback(...)`, perform haptic playback inside this closure whenever tab bar item is tapped.
     func tabBarNavigationEnabled<TabSelection: Hashable>(
         _ tab: TabSelection,
         _ navigator: Navigation,
